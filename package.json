@@ -1,0 +1,23 @@
+{
+  "name": "mongo-scraper",
+  "version": "1.0.0",
+  "description": "This app will pull articles of data from a site, and allow user to add notes to articles.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shapyro/mongo-scraper.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shapyro/mongo-scraper/issues"
+  },
+  "homepage": "https://github.com/shapyro/mongo-scraper#readme",
+  "dependencies": {
+    "npm": "^5.7.1"
+  }
+}
