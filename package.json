@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/shapyro/mongo-scraper#readme",
   "dependencies": {
-    "npm": "^5.7.1"
+    "express-handlebars": "^3.0.0",
+    "npm": "^5.7.1",
+    "request": "^2.85.0"
   }
 }
