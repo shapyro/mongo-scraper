@@ -10,13 +10,16 @@ var HeadlineSchema = new Schema({
     type: String,
     required: true
   },
-  // source: {
-  //   type: String,
-  //   required: true
-  // },
+  source: {
+    type: String,
+  },
   note: {
     type: Schema.Types.ObjectId,
     ref: "Note"
+  },
+  saved: {
+    type: Boolean,
+    default: false
   }
 });
 

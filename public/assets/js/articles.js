@@ -1,13 +1,21 @@
+
 $(document).ready(function(){
 
-  $('.btn').click(function() {
-    console.log("clicked");
+  $.getJSON('/headlines', function(data) {
+    console.log(data);
+    displayResults(data);
+  })
+
+  $('.scrape').click(function(event) {
+    event.preventDefault();
     $.get('/scrape', function(data){
       alert(data);
+      location.reload();
     })
   });
 
-  $('.home').click(function() {
+  $('.home').click(function(event) {
+    event.preventDefault();
     console.log('clicked')
     $(this).css({
       background: 'grey'
@@ -15,28 +23,22 @@ $(document).ready(function(){
     $('.saved').css({
       background: 'none'
     })
+
+    // get headlines from mongo
     $.getJSON('/headlines', function(data) {
       console.log(data);
       displayResults(data);
     })
-  })
 
-  $('.saved').click(function() {
-    console.log('clicked')
-    $(this).css({
-      background: 'grey'
-    })
-    $('.home').css({
-      background: 'none'
-    })
   })
+  
 
   function displayResults(data) {
     $('.article-container').html(data.map(headline => `
 
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h3><a class="article-link" target="_blank" href="${headline.link}">${headline.title}</a><a class="btn btn-success save">SAVE ARTICLE</a></h3>
+          <h3><a class="article-link" target="_blank" href="${headline.link}">${headline.title}</a><a class="btn btn-success save" id="${headline._id}">SAVE ARTICLE</a></h3>
         </div>
         <div class="panel-body">
           Nothing here yet
@@ -44,9 +46,30 @@ $(document).ready(function(){
       </div>
     
       `
-    
+
     ))
   }
+
+  // $('.btn-success').unbind().click(function(event) {
+
+  $(document).on('click', '.save', function() {
+    // event.preventDefault();
+    console.log('clicked')
+
+    var thisId = $(this).attr("id");
+    console.log(thisId)
+
+    $.ajax({
+      method: "PUT",
+      url: '/headlines/' + thisId,
+      data: {saved: true}
+    })
+    .then(function(data) {
+      // Log the response
+      console.log(data);
+    });
+
+  })
 
 });
 

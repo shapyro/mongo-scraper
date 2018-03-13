@@ -72,9 +72,19 @@ module.exports = function(app) {
   
   });
 
-
   app.get('/headlines', function(req, res) {
     Headline.find().then(headlines => res.json(headlines));
+  })
+
+  app.put('/headlines/:id', function(req, res) {
+    Headline.update({_id: req.params.id}, {$set: {saved: true}})
+      .then(s => res.json(s))
+  })
+
+  app.get('/saved', function(req, res) {
+    Headline.find({
+      saved: true
+    }).then(headlines => res.json(headlines));
   })
 
 }
