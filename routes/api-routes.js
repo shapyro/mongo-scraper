@@ -6,10 +6,32 @@ var cheerio = require('cheerio');
 
 module.exports = function(app) {
 
+  // scrape data from ycombinator
   app.get('/scrape', function(req, res) {
     request("https://news.ycombinator.com/", function (error, response, html) {
   
       var $ = cheerio.load(html);
+
+      // $('tr.athing').each(function (i, element) {
+  
+      //   console.log(element)
+  
+      //   var title = $(element).next('td.title').children('a').text()
+      //   var link = $(element).next('span.sitebit').children('a').attr('href')
+      //   // var source = $(title).next().hasClass('sitebit')
+      //   console.log(title)
+      //   console.log(link)
+
+  
+      //   if (title && link) {
+      //     Headline.create({
+      //       title: title,
+      //       link: link
+      //       // source: source
+      //     },
+      //     (err, inserted) => err ? console.log(err) : console.log(inserted));
+      //   };
+      // });
   
       $('td.title').each(function (i, element) {
   
@@ -49,6 +71,11 @@ module.exports = function(app) {
     });
   
   });
+
+
+  app.get('/headlines', function(req, res) {
+    Headline.find().then(headlines => res.json(headlines));
+  })
 
 }
 
