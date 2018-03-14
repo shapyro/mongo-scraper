@@ -24,6 +24,8 @@ $(document).ready(function(){
       background: 'none'
     })
 
+    $('.scrape').show();
+
     // get headlines from mongo
     $.getJSON('/headlines', function(data) {
       console.log(data);
@@ -67,6 +69,12 @@ $(document).ready(function(){
     .then(function(data) {
       // Log the response
       console.log(data);
+
+      $.getJSON('/headlines', function(data) {
+        console.log(data);
+        displayResults(data);
+      })
+
     });
 
   })
