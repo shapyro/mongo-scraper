@@ -70,7 +70,6 @@ $(document).ready(function() {
       url: '/headlines/' + thisId
     })
     .then(function(data){
-      console.log(data);
       
       $('#savenote').attr('data-id', data._id)
 
@@ -81,8 +80,6 @@ $(document).ready(function() {
               <button class="btn btn-danger note-delete" id="${data.note._id}">x</button>
             </li>`
         );
-
-        // $('.note').val(data.note.body)
       }
       
     })
@@ -91,10 +88,9 @@ $(document).ready(function() {
 
   $(document).on('click', '#savenote', function() {
 
-    // event.preventDefault();
-    console.log('clicked')
+    $('.note-container').empty();
 
-   var thisId = $(this).attr("data-id");
+    var thisId = $(this).attr("data-id");
     console.log(thisId)
 
     $.ajax({
@@ -105,19 +101,66 @@ $(document).ready(function() {
       }
     })
     .then(function(data) {
-      // Log the response
-      console.log(data);
 
-      // $.getJSON('/saved', function(data) {
-      //   console.log(data);
-      //   displayResults(data);
-      // })
+      $.ajax({
+        method: 'GET',
+        url: '/headlines/' + thisId
+      })
+      .then(function(data){
       
+        $('.note-container').append(`
+            <li class="list-group-item note">
+              ${data.note.body}
+              <button class="btn btn-danger note-delete" id="${data.note._id}">x</button>
+            </li>`
+        );
+        
+      })    
     });
 
     $('#text').val('')
 
   })
+
+
+  $(document).on('click', '.note-delete', function() {
+    var thisId = $(this).attr("id");
+    headlineId = $('#savenote').attr("data-id");
+    $('.note-container').empty();
+
+    $.ajax({
+      method: "POST",
+      url: '/note/' + thisId,
+      data: {
+        body: $('#text').val()
+      }
+    })
+    .then(function(data) {
+
+      $.ajax({
+        method: 'GET',
+        url: '/headlines/' + headlineId
+      })
+      .then(function(data){
+
+        console.log(data);
+      
+        if (data.note) {
+          $('.note-container').append(`
+              <li class="list-group-item note">
+                ${data.note.body}
+                <button class="btn btn-danger note-delete" id="${data.note._id}">x</button>
+              </li>`
+          );
+        }
+        
+      })    
+    });
+
+    $('#text').val('')
+
+  })
+
 
 })
 

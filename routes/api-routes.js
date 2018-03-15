@@ -46,7 +46,7 @@ module.exports = function(app) {
       })
   })
 
-  // saved rt
+  // saved headline rt
   app.get('/saved', function(req, res) {
     Headline
       .find({saved: true})
@@ -59,6 +59,11 @@ module.exports = function(app) {
       .then(s => res.json(s))
   })
 
+  // note rt
+  app.post('/note/:id', function(req, res) {
+    Note.deleteOne({ _id: req.params.id })
+      .then(deleted => res.json(deleted))
+  })
 
 }
 

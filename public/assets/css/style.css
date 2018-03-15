@@ -97,6 +97,5 @@ a:hover {
   margin-bottom: 10px;
 }
 .note-delete {
-  position: relative;
-  right: -320px;
+  float: right;
 }
