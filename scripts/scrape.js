@@ -8,65 +8,33 @@ const scrape = function() {
   
     var $ = cheerio.load(html);
 
-    // $('tr.athing').each(function (i, element) {
+    $("tr.athing").each(function (i, element) {
 
-    //   console.log(element)
+      var td = $(element).children('td').last()
 
-    //   var title = $(element).next('td.title').children('a').text()
-    //   var link = $(element).next('span.sitebit').children('a').attr('href')
-    //   // var source = $(title).next().hasClass('sitebit')
-    //   console.log(title)
-    //   console.log(link)
+      var title = $(td).children('a').text();
+      var link = $(td).children('a').attr('href')
 
-
-    //   if (title && link) {
-    //     Headline.create({
-    //       title: title,
-    //       link: link
-    //       // source: source
-    //     },
-    //     (err, inserted) => err ? console.log(err) : console.log(inserted));
-    //   };
-    // });
-
-    $('td.title').each(function (i, element) {
-
-      console.log(element)
-
-      var title = $(element).children('a').text();
-      var link = $(element).children('a').attr('href')
-      // var source = $(title).next().hasClass('sitebit')
+      var span = $(td).children('span')
+      var a = $(span).children('a')
+      var source = $(a).children('span').text()
 
       if (title && link) {
         Headline.create({
           title: title,
-          link: link
-          // source: source
+          link: link,
+          source: source
         },
         {
           upsert: true
         },
-        (err, inserted) => err ? console.log(err) : console.log(inserted));
+
+        (err, inserted) => { /* err ? console.log(err) : console.log(inserted) */ });
       };
     });
-
-    // $('span.sitebit').each(function (i, element) {
-
-    //   console.log(element)
-
-    //   var source = $(element).children('a').attr('href')
-      
-
-    //   if (title && link) {
-    //     Headline.create({
-    //       title: title,
-    //       link: link
-    //     },
-    //     (err, inserted) => err ? console.log(err) : console.log(inserted));
-    //   };
-    // });
   
   });
+
 }
 
 module.exports = scrape;

@@ -18,9 +18,7 @@ app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 mongoose.Promise = Promise;
-mongoose.connect('mongodb://localhost/mongoScraper', {
-  useMongoClient: true
-})
+mongoose.connect('mongodb://localhost/mongoScraper', {})
 
 require("./routes/api-routes.js")(app);
 require("./routes/view-routes.js")(app);

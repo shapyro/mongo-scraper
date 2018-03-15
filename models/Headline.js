@@ -22,7 +22,8 @@ var HeadlineSchema = new Schema({
     type: Boolean,
     default: false
   }
-});
+},
+{ timestamps: true });
 
 var Headline = mongoose.model('Headline', HeadlineSchema);
 

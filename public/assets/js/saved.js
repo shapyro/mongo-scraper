@@ -1,7 +1,8 @@
+
 $(document).ready(function() {
 
   $('.saved').click(function() {
-    console.log('clicked')
+
     $(this).css({
       background: 'grey'
     })
@@ -13,7 +14,6 @@ $(document).ready(function() {
 
     // get saved headlines from mongo
     $.getJSON('/saved', function(data) {
-      console.log(data);
       displayResults(data);
     })
 
@@ -27,7 +27,7 @@ $(document).ready(function() {
           <h3><a class="article-link" target="_blank" href="${headline.link}">${headline.title}</a><a class="btn btn-danger delete" id="${headline._id}">DELETE FROM SAVED</a><a class="btn btn-info notes id="${headline._id}"">ARTICLE NOTES</a></h3>
         </div>
         <div class="panel-body">
-          Nothing here yet
+          ${headline.source}
         </div>
       </div>
     
@@ -37,11 +37,8 @@ $(document).ready(function() {
   }
 
   $(document).on('click', '.delete', function() {
-    // event.preventDefault();
-    console.log('clicked')
 
    var thisId = $(this).attr("id");
-    console.log(thisId)
 
     $.ajax({
       method: "PUT",
@@ -49,11 +46,8 @@ $(document).ready(function() {
       data: {saved: false}
     })
     .then(function(data) {
-      // Log the response
-      console.log(data);
 
       $.getJSON('/saved', function(data) {
-        console.log(data);
         displayResults(data);
       })
 

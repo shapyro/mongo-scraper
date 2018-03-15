@@ -13,7 +13,10 @@ module.exports = function(app) {
   })
 
   app.get('/headlines', function(req, res) {
-    Headline.find({saved: false}).then(headlines => res.json(headlines));
+    Headline
+      .find({saved: false})
+      .sort({createdAt: -1})
+      .then(headlines => res.json(headlines));
   })
 
   app.put('/headlines/:id', function(req, res) {
@@ -22,9 +25,10 @@ module.exports = function(app) {
   })
 
   app.get('/saved', function(req, res) {
-    Headline.find({
-      saved: true
-    }).then(headlines => res.json(headlines));
+    Headline
+      .find({saved: true})
+      .sort({createdAt: -1})
+      .then(headlines => res.json(headlines));
   })
 
   app.put('/saved/:id', function(req, res) {
