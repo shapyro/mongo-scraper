@@ -90,3 +90,13 @@ a:hover {
 .panel.panel-default .panel-heading .btn.delete {
   right: 160px;
 }
+.note-container {
+  margin-bottom: 20px;
+}
+.note {
+  margin-bottom: 10px;
+}
+.note-delete {
+  position: relative;
+  right: -320px;
+}

@@ -14,13 +14,13 @@ var HeadlineSchema = new Schema({
   source: {
     type: String,
   },
-  note: {
-    type: Schema.Types.ObjectId,
-    ref: "Note"
-  },
   saved: {
     type: Boolean,
     default: false
+  },
+  note: {
+    type: Schema.Types.ObjectId,
+    ref: "Note"
   }
 },
 { timestamps: true });
