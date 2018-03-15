@@ -19,26 +19,6 @@ $(document).ready(function() {
 
   })
 
-  function displayResults(data) {
-    $('.article-container').html(data.map(headline => `
-
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3><a class="article-link" target="_blank" href="${headline.link}">${headline.title}</a><a class="btn btn-danger delete" id="${headline._id}">DELETE FROM SAVED</a>
-          <button type="button" class="btn btn-primary btn-info notes" id="${headline._id}" data-toggle="modal" data-target="#exampleModal">
-            ARTICLE NOTES
-          </button></h3>
-        </div>
-        <div class="panel-body">
-          ${headline.source}
-        </div>
-      </div>
-    
-      `
-
-    ))
-  }
-
   $(document).on('click', '.delete', function() {
 
    var thisId = $(this).attr("id");
@@ -49,14 +29,28 @@ $(document).ready(function() {
       data: {saved: false}
     })
     .then(function(data) {
-
       $.getJSON('/saved', function(data) {
         displayResults(data);
       })
-
     });
 
   })
+
+  function displayResults(data) {
+    $('.article-container').html(data.map(headline => `
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3><a class="article-link" target="_blank" href="${headline.link}">${headline.title}</a><a class="btn btn-danger delete" id="${headline._id}">DELETE FROM SAVED</a>
+          <button type="button" class="btn btn-primary btn-info notes" id="${headline._id}" data-toggle="modal" data-target="#exampleModal">
+            ARTICLE NOTES
+          </button></h3>
+        </div>
+        <div class="panel-body">
+          ${headline.source}
+        </div>
+      </div>`
+    ))
+  }
 
   $(document).on('click', '.notes', function() {
 
@@ -74,12 +68,7 @@ $(document).ready(function() {
       $('#savenote').attr('data-id', data._id)
 
       if (data.note) {
-        $('.note-container').append(`
-            <li class="list-group-item note">
-              ${data.note.body}
-              <button class="btn btn-danger note-delete" id="${data.note._id}">x</button>
-            </li>`
-        );
+        displayNotes(data);
       }
       
     })
@@ -107,14 +96,7 @@ $(document).ready(function() {
         url: '/headlines/' + thisId
       })
       .then(function(data){
-      
-        $('.note-container').append(`
-            <li class="list-group-item note">
-              ${data.note.body}
-              <button class="btn btn-danger note-delete" id="${data.note._id}">x</button>
-            </li>`
-        );
-        
+        displayNotes(data);
       })    
     });
 
@@ -146,12 +128,7 @@ $(document).ready(function() {
         console.log(data);
       
         if (data.note) {
-          $('.note-container').append(`
-              <li class="list-group-item note">
-                ${data.note.body}
-                <button class="btn btn-danger note-delete" id="${data.note._id}">x</button>
-              </li>`
-          );
+          displayNotes(data);
         }
         
       })    
@@ -160,6 +137,15 @@ $(document).ready(function() {
     $('#text').val('')
 
   })
+
+  function displayNotes(data) {
+    $('.note-container').append(`
+      <li class="list-group-item note">
+       ${data.note.body}
+        <button class="btn btn-danger note-delete" id="${data.note._id}">x</button>
+      </li>`
+    );
+  }
 
 
 })

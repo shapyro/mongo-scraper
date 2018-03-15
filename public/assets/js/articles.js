@@ -1,10 +1,12 @@
 
 $(document).ready(function(){
 
+  // get headlines saved to db already
   $.getJSON('/headlines', function(data) {
     displayResults(data);
   })
 
+  // scrape new headlines
   $('.scrape').click(function(event) {
     event.preventDefault();
     $.get('/scrape', function(data){
@@ -14,6 +16,7 @@ $(document).ready(function(){
     })
   });
 
+  // route home
   $('.home').click(function(event) {
 
     $(this).css({
@@ -32,10 +35,9 @@ $(document).ready(function(){
 
   })
   
-
+  // function to display results of Headlines
   function displayResults(data) {
     $('.article-container').html(data.map(headline => `
-
       <div class="panel panel-default">
         <div class="panel-heading">
           <h3><a class="article-link" target="_blank" href="${headline.link}">${headline.title}</a><a class="btn btn-success save" id="${headline._id}">SAVE ARTICLE</a></h3>
@@ -43,13 +45,11 @@ $(document).ready(function(){
         <div class="panel-body">
           ${headline.source}
         </div>
-      </div>
-    
-      `
-
+      </div>`
     ))
   }
 
+  // save headlines
   $(document).on('click', '.save', function() {
 
     var thisId = $(this).attr("id");

@@ -59,7 +59,7 @@ module.exports = function(app) {
       .then(s => res.json(s))
   })
 
-  // note rt
+  // delete note rt
   app.post('/note/:id', function(req, res) {
     Note.deleteOne({ _id: req.params.id })
       .then(deleted => res.json(deleted))

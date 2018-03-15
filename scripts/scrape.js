@@ -8,17 +8,22 @@ const scrape = function() {
   
     var $ = cheerio.load(html);
 
+    // it all starts here:
     $("tr.athing").each(function (i, element) {
 
+      // scrape last td for title and link
       var td = $(element).children('td').last()
 
       var title = $(td).children('a').text();
       var link = $(td).children('a').attr('href')
 
+      // scrape span for news source
       var span = $(td).children('span')
       var a = $(span).children('a')
       var source = $(a).children('span').text()
 
+      // write articles to mongodb
+      // with upsert to avoid dups
       if (title && link) {
         Headline.create({
           title: title,
@@ -29,6 +34,8 @@ const scrape = function() {
           upsert: true
         },
 
+        // there appear to be extraneous tds on this page 
+        // that are not legit titles for articles
         (err, inserted) => { /* err ? console.log(err) : console.log(inserted) */ });
       };
     });
