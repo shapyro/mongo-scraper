@@ -17,8 +17,10 @@ var exphbs = require("express-handlebars");
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
+// If deployed, use the deployed database. Otherwise use the local mongoScraper database
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoScraper";
 mongoose.Promise = Promise;
-mongoose.connect('mongodb://localhost/mongoScraper', {})
+mongoose.connect(MONGODB_URI, {})
 
 require("./routes/api-routes.js")(app);
 require("./routes/view-routes.js")(app);

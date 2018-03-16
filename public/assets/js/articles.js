@@ -11,7 +11,6 @@ $(document).ready(function(){
     event.preventDefault();
     $.get('/scrape', function(data){
       alert(data)
-      console.log(data);
       location.reload();
     })
   });

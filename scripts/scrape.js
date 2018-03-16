@@ -8,7 +8,7 @@ const scrape = function() {
   
     var $ = cheerio.load(html);
 
-    // it all starts here:
+    // alll the news starts here:
     $("tr.athing").each(function (i, element) {
 
       // scrape last td for title and link
